@@ -1,0 +1,24 @@
+pragma solidity ^0.8.0;
+
+contract CreditSystem {
+    mapping(address => uint256) public balances;
+
+    // function to depoiste amount 
+    function deposit(uint256 _value) public payable {
+        require(_value > 0);
+        balances[msg.sender] += _value;
+    }
+
+    // function to withdrwa amount
+    function withdraw(uint256 _value) public {
+        require(_value > 0);
+        require(_value <= balances[msg.sender], "Insufficient Balance");
+        payable(msg.sender).transfer(_value);
+        balances[msg.sender] -= _value;
+    }
+
+    // function to check balance
+    function checkBalance() public view returns (uint256) {
+        return balances[msg.sender];
+    }
+}
